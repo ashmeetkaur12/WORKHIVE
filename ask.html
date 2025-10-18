@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Workspace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-size: 28px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        
+        .content {
+            padding: 35px;
+        }
+        
+        .role-selection {
+            margin-bottom: 35px;
+        }
+        
+        .role-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #374151;
+            text-align: center;
+        }
+        
+        .role-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .role-option {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .role-option:hover {
+            border-color: #4f46e5;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.15);
+        }
+        
+        .role-option.selected {
+            border-color: #4f46e5;
+            background-color: #f5f7ff;
+        }
+        
+        .role-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin: 0 auto 15px;
+            display: block;
+            border: 3px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .role-option.selected .role-image {
+            border-color: #4f46e5;
+            transform: scale(1.05);
+        }
+        
+        .role-name {
+            font-weight: 600;
+            color: #374151;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .role-option.selected .role-name {
+            color: #4f46e5;
+        }
+        
+        .role-desc {
+            font-size: 14px;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+        
+        .btn-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .create-btn {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            padding: 16px 35px;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+        }
+        
+        .create-btn:active {
+            transform: translateY(0);
+        }
+        
+        .create-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        @media (max-width: 768px) {
+            .role-options {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .content {
+                padding: 25px 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to WorkHive</h1>
+            <p>Choose your role to create your workspace</p>
+        </div>
+        
+        <div class="content">
+            <div class="role-selection">
+                <div class="role-title">Which best describes you?</div>
+                
+                <div class="role-options">
+                    <div class="role-option" onclick="selectRole('leader')">
+                        <img src="https://placeholder-image-service.onrender.com/image/200x200?prompt=Professional%20team%20leader%20in%20business%20attire%20leading%20a%20meeting%20with%20confidence%20and%20authority&id=8cad10f6-ec28-4796-9104-874291daadd5" alt="Team leader guiding others in a professional meeting" class="role-image">
+                        <div class="role-name">Team Leader</div>
+                        <div class="role-desc">Manage projects and guide your team to success</div>
+                    </div>
+                    
+                    <div class="role-option" onclick="selectRole('member')">
+                        <img src="https://placeholder-image-service.onrender.com/image/200x200?prompt=Team%20member%20collaborating%20with%20colleagues%20on%20a%20project%20with%20laptop%20and%20whiteboard&id=8cad10f6-ec28-4796-9104-874291daadd5" alt="Team member collaborating with colleagues on a project" class="role-image">
+                        <div class="role-name">Team Member</div>
+                        <div class="role-desc">Contribute to projects and collaborate with your team</div>
+                    </div>
+                    
+                    <div class="role-option" onclick="selectRole('other')">
+                        <img src="https://placeholder-image-service.onrender.com/image/200x200?prompt=Creative%20professional%20working%20independently%20with%20multiple%20devices%20and%20tools&id=8cad10f6-ec28-4796-9104-874291daadd5" alt="Creative professional working independently with tools" class="role-image">
+                        <div class="role-name">Other</div>
+                        <div class="role-desc">For freelancers, consultants, and individual contributors</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="btn-container">
+                <button class="create-btn" id="createBtn" disabled>Create Your Workspace</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedRole = null;
+        
+        function selectRole(role) {
+            selectedRole = role;
+            
+            // Remove selected class from all options
+            const options = document.querySelectorAll('.role-option');
+            options.forEach(option => option.classList.remove('selected'));
+            
+            // Add selected class to clicked option
+            event.currentTarget.classList.add('selected');
+            
+            // Enable the button
+            document.getElementById('createBtn').disabled = false;
+        }
+        
+        document.getElementById('createBtn').addEventListener('click', function() {
+            if (selectedRole) {
+                alert(`Creating your workspace as a ${selectedRole.replace('leader', 'Team Leader').replace('member', 'Team Member').replace('other', 'Other')}`);
+                // Here you would typically redirect or show a form to create the workspace
+            }
+        });
+    </script>
+</body>
+</html>

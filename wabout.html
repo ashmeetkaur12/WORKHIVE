@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - WorkHive</title>
+<link href="https://fonts.googleapis.com/css2?family=Oleo+Script+Swash+Caps:wght@400;700&family=Fredoka+One&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: rgba(255, 253, 220, 0.8);
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        #about-hero {
+            background: linear-gradient(rgba(255, 255, 224, 0.8), rgba(241,235,156, 0.8)), url('a1.jpg') center/cover no-repeat;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: rgba(139, 69, 19, 0.80);
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+           font-family: 'Oleo Script Swash Caps', cursive;
+           font-weight: 400;
+           font-style: normal;
+           letter-spacing: 2px; /* elegant spacing */
+           text-shadow: 2px 2px 8px rgba(0,0,0,0.3); /* subtle glow */
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out 0.2s both;
+            font-family: 'Fredoka One', cursive;; 
+            font-weight: 400;
+            font-size: 1.3rem;
+            color: rgba(139, 69, 19, 0.85);
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Slideshow Section */
+        #slideshow {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #FFFDDC 40%, #F1EB9CCC 20%); 
+            text-align: center;
+        }
+
+        #slideshow h2 {
+            font-family: 'Oleo Script Swash Caps', cursive;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #640606;
+        }
+
+        .slideshow-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .slide {
+            display: none;
+            padding: 2rem;
+            background: white;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide img {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .slide h3 {
+            font-family: 'Oleo Script Swash Caps', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #A6402B;
+        }
+
+        .slide p {
+            font-family: 'Fredoka One', sans-serif;
+            font-size: 1.1rem;
+            color: #E1654C;
+        }
+
+        .slide-nav {
+           width: 50px;
+           height: 50px;
+           border-radius: 50%;
+           background: rgba(241, 235, 156, 0.8);
+           color: #fff;
+           border: none;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           font-size: 1.8rem;
+           cursor: pointer;
+           position: absolute;
+           top: 50%;
+           transform: translateY(-50%);
+           transition: all 0.3s ease;
+           box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .slide-nav:hover {
+            background: rgba(240, 173, 111, 0.712);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e2a7a7;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .dot.active {
+            background: #E1654C;
+        }
+
+        /* New Split Layout Section */
+        #split-section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 253, 220, 0.8);
+        }
+
+        #split-section h2 {
+            font-family: 'Oleo Script Swash Caps', cursive;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #640606;
+        }
+
+        .split-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(650px, 1fr));
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .split-item {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        padding: 2rem;
+        background:rgba(241, 235, 156, 0.8);;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        opacity: 0.6; /* initial faded state */
+        transform: translateY(20px); /* initial move-down */
+        transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease; /* smooth fade + movement + optional shadow */
+    }
+
+    /* When the card is visible in viewport */
+     .split-item.visible {
+      opacity: 1; /* fully visible */
+      transform: translateY(0); /* move to original position */
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* optional: slightly stronger shadow on reveal */
+    }
+
+    /* Optional hover effect */
+     .split-item:hover {
+      background: rgba(230, 220, 130, 0.8); /* slightly darker background on hover */
+      transform: translateY(-5px); /* subtle lift on hover */
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+
+        .split-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .split-image {
+            flex: 1;
+            height: 300px;
+        }
+
+        .split-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .split-item:hover .split-image img {
+            transform: scale(1.05);
+        }
+
+        .split-content {
+            flex: 1;
+            padding: 1rem;
+        }
+
+        .split-content h3 {
+            font-family: 'Fredoka One', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .split-content p {
+            font-family: 'Fredoka One', sans-serif;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .split-content .icon {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        /* Team Section */
+        #team {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        #team h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #667eea;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            opacity: 0.9;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            opacity: 1;
+        }
+
+        .team-card:hover::before {
+            left: 100%;
+        }
+
+        .team-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            object-fit: cover;
+            border: 4px solid #667eea;
+        }
+
+        .team-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .team-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .team-card .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .team-card .social-links a {
+            color: #667eea;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .team-card .social-links a:hover {
+            color: #764ba2;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+    </style>
+</head>
+<body>
+    <section id="about-hero">
+        <div class="hero-content">
+            <h1>About Us</h1>
+            <p><b>WorkHive</b> is a smart project management platform that tracks progress, ensures timely delivery, and provides collaborative spaces for teams to work efficiently.<br> It streamlines workflows and keeps projects organized, boosting productivity and seamless coordination.</p>
+        </div>
+    </section>
+
+    <section id="slideshow">
+        <h2>Work Smarter with WorkHive</h2>
+        <div class="slideshow-container">
+            <div class="slide active">
+                <img src="a2.gif" alt="Error:1">
+                <h3>Smart Login & Access Control</h3>
+                <p>Secure login for every member — with role-based access. Team leads, clients, and members all get their own personalized dashboard view.</p>
+            </div>
+            <div class="slide">
+                <img src="a3.gif" alt="Error:2">
+                <h3>Real-Time Notifications</h3>
+                <p>Never miss an update! Get instant alerts when tasks are assigned, deadlines approach, or progress changes.</p>
+            </div>
+            <div class="slide">
+                <img src="a4.gif" alt="Error:3">
+                <h3>Integrated Communication Tools</h3>
+                <p>Connect through built-in chat and discussion threads — so your ideas, feedback, and updates stay right where the work happens.</p>
+            </div>
+            <button class="slide-nav prev" onclick="changeSlide(-1)"><i class="fas fa-chevron-left"></i>&#10094;</button>
+            <button class="slide-nav next" onclick="changeSlide(1)"><i class="fas fa-chevron-right"></i>&#10095;</button>
+            <div class="dots">
+                <span class="dot active" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+            </div>
+        </div>
+    </section>
+     <!-- New Split Layout Section -->
+    <section id="split-section">
+        <h2>Why Choose WorkHive?</h2>
+        <div class="split-grid">
+            <div class="split-item">
+                <div class="split-image">
+                    <img src="a5.gif" alt="Error:0.1">
+                </div>
+                <div class="split-content">
+                    <h3>Dedicated Team Rooms</h3>
+                    <p>Collaborate instantly in private rooms for each project. Discuss ideas, assign tasks, and share files without switching between apps.</p>
+                </div>
+            </div>
+            <div class="split-item">
+                <div class="split-image">
+                    <img src="a6.gif" alt="Collaboration">
+                </div>
+                <div class="split-content">
+                    <h3>Progress Tracking System</h3>
+                    <p>Track every milestone and task with automatic percentage updates. Stay aware of what’s done, what’s pending, and what needs attention.</p>
+                </div>
+            </div>
+            <div class="split-item">
+                <div class="split-image">
+                    <img src="a7.gif" alt="Success">
+                </div>
+                <div class="split-content">
+                    <i class="fas fa-chart-line icon"></i>
+                    <h3>Role-Based Access</h3>
+                    <p>Assign roles like admin, manager, or member with controlled access to data and tools — ensuring privacy and organization.p>
+                </div>
+            </div>
+        </div>
+    </section>
+ <script>
+// Get all split items
+const splitItems = document.querySelectorAll('.split-item');
+
+// Function to check if element is in viewport
+function checkVisibility() {
+    const triggerBottom = window.innerHeight * 0.85; // 85% from top
+
+    splitItems.forEach(item => {
+        const itemTop = item.getBoundingClientRect().top;
+
+        if(itemTop < triggerBottom) {
+            item.classList.add('visible');
+        } 
+        // Optional: remove the class when scrolled out of view
+        else {
+            item.classList.remove('visible');
+        }
+    });
+}
+
+// Run on scroll and on page load
+window.addEventListener('scroll', checkVisibility);
+window.addEventListener('load', checkVisibility);
+</script>
+
+    <section id="team">
+        <h2>Meet Our Team</h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Alice Johnson">
+                <h3>Alice Johnson</h3>
+                <p>CEO & Founder</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Bob Smith">
+                <h3>Bob Smith</h3>
+                <p>Lead Developer</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Carol Lee">
+                <h3>Carol Lee</h3>
+                <p>Project Manager</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 WorkHive.in All rights reserved. | <a href="#privacy">Privacy Policy</a></p>
+    </footer>
+
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function changeSlide(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            let slides = document.getElementsByClassName("slide");
+            let dots = document.getElementsByClassName("dot");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove("active");
+            }
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].classList.remove("active");
+            }
+            slides[slideIndex - 1].classList.add("active");
+            dots[slideIndex - 1].classList.add("active");
+        }
+
+        // Auto-slide every 5 seconds
+        setInterval(() => {
+            changeSlide(1);
+        }, 5000);
+    </script>
+</body>
+</html>
