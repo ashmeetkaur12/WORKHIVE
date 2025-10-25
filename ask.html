@@ -28,10 +28,12 @@
             width: 100%;
             max-width: 600px;
             overflow: hidden;
+            z-index: 1;
+            position: relative;
         }
         
         .header {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #f9fd09 0%, #fcf964 100%);
             color: white;
             padding: 40px;
             text-align: center;
@@ -80,13 +82,13 @@
         }
         
         .role-option:hover {
-            border-color: #4f46e5;
+            border-color: #f8fc0a;
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(79, 70, 229, 0.15);
         }
         
         .role-option.selected {
-            border-color: #4f46e5;
+            border-color: #fffb00;
             background-color: #f5f7ff;
         }
         
@@ -102,7 +104,7 @@
         }
         
         .role-option.selected .role-image {
-            border-color: #4f46e5;
+            border-color: #fffb00;
             transform: scale(1.05);
         }
         
@@ -114,7 +116,7 @@
         }
         
         .role-option.selected .role-name {
-            color: #4f46e5;
+            color: #ffd900;
         }
         
         .role-desc {
@@ -129,7 +131,7 @@
         }
         
         .create-btn {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #fffb00 0%, #fcf964 100%);
             color: white;
             border: none;
             padding: 16px 35px;
@@ -151,7 +153,7 @@
         }
         
         .create-btn:disabled {
-            background: #9ca3af;
+            background: #ffd900;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
@@ -175,40 +177,112 @@
                 font-size: 24px;
             }
         }
+
+        /* Video background */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .video-bg video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            filter: brightness(0.6);
+        }
+
+        /* Full-screen image overlay */
+        .fullscreen-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .fullscreen-image img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1001;
+        }
     </style>
 </head>
 <body>
+
+    <!-- Video Background -->
+    <div class="video-bg">
+        <video autoplay muted loop playsinline>
+            <source src="bg.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- Full-screen image overlay -->
+    <div class="fullscreen-image" id="fullscreenImage">
+        <button class="close-btn" onclick="closeFullscreenImage()">×</button>
+        <img id="displayedImage" src="" alt="Workspace image">
+    </div>
+
     <div class="container">
         <div class="header">
             <h1>Welcome to WorkHive</h1>
             <p>Choose your role to create your workspace</p>
         </div>
-        
+
         <div class="content">
             <div class="role-selection">
                 <div class="role-title">Which best describes you?</div>
-                
+
                 <div class="role-options">
-                    <div class="role-option" onclick="selectRole('leader')">
-                        <img src="https://placeholder-image-service.onrender.com/image/200x200?prompt=Professional%20team%20leader%20in%20business%20attire%20leading%20a%20meeting%20with%20confidence%20and%20authority&id=8cad10f6-ec28-4796-9104-874291daadd5" alt="Team leader guiding others in a professional meeting" class="role-image">
+                    <div class="role-option" onclick="selectRole('leader', event)">
+                        <img src="ask1.jpg" alt="Team leader" class="role-image">
                         <div class="role-name">Team Leader</div>
                         <div class="role-desc">Manage projects and guide your team to success</div>
                     </div>
-                    
-                    <div class="role-option" onclick="selectRole('member')">
-                        <img src="https://placeholder-image-service.onrender.com/image/200x200?prompt=Team%20member%20collaborating%20with%20colleagues%20on%20a%20project%20with%20laptop%20and%20whiteboard&id=8cad10f6-ec28-4796-9104-874291daadd5" alt="Team member collaborating with colleagues on a project" class="role-image">
+
+                    <div class="role-option" onclick="selectRole('member', event)">
+                        <img src="ask2.jpg" alt="Team member" class="role-image">
                         <div class="role-name">Team Member</div>
                         <div class="role-desc">Contribute to projects and collaborate with your team</div>
                     </div>
-                    
-                    <div class="role-option" onclick="selectRole('other')">
-                        <img src="https://placeholder-image-service.onrender.com/image/200x200?prompt=Creative%20professional%20working%20independently%20with%20multiple%20devices%20and%20tools&id=8cad10f6-ec28-4796-9104-874291daadd5" alt="Creative professional working independently with tools" class="role-image">
+
+                    <div class="role-option" onclick="selectRole('other', event)">
+                        <img src="ask3.jpg" alt="Other" class="role-image">
                         <div class="role-name">Other</div>
                         <div class="role-desc">For freelancers, consultants, and individual contributors</div>
                     </div>
                 </div>
             </div>
-            
+
             <div class="btn-container">
                 <button class="create-btn" id="createBtn" disabled>Create Your Workspace</button>
             </div>
@@ -217,26 +291,31 @@
 
     <script>
         let selectedRole = null;
-        
-        function selectRole(role) {
+
+        function selectRole(role, event) {
             selectedRole = role;
-            
-            // Remove selected class from all options
+
             const options = document.querySelectorAll('.role-option');
             options.forEach(option => option.classList.remove('selected'));
-            
-            // Add selected class to clicked option
+
             event.currentTarget.classList.add('selected');
-            
-            // Enable the button
+
             document.getElementById('createBtn').disabled = false;
         }
-        
+
+        function closeFullscreenImage() {
+            document.getElementById('fullscreenImage').style.display = 'none';
+        }
+
+        // Close overlay if clicked outside the image
+        document.getElementById('fullscreenImage').addEventListener('click', function(e) {
+            if(e.target === this) closeFullscreenImage();
+        });
+
         document.getElementById('createBtn').addEventListener('click', function() {
-            if (selectedRole) {
-                alert(`Creating your workspace as a ${selectedRole.replace('leader', 'Team Leader').replace('member', 'Team Member').replace('other', 'Other')}`);
-                // Here you would typically redirect or show a form to create the workspace
-            }
+            // Show your fixed image
+            document.getElementById('displayedImage').src = 'done.gif'; // replace with your image
+            document.getElementById('fullscreenImage').style.display = 'flex';
         });
     </script>
 </body>
