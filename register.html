@@ -2,77 +2,334 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible"
-  content="IE-edge">
-  <meta name="viewport"
-  content="width=device-width,initial scale=1,0">
-  <title>Registration Form</title>
-  <link rel="stylesheet" href="register.css">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorkHive Registration</title>
+
+  <!-- Boxicons & Google Fonts -->
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-  </head>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 
-</body>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
 
- <div class="container">
-  <div class="content">
-     <h2 class="logo"><i class='bx bx1-firebase'></i></h2>
-     <h2>WorkHive.in</h2>
+    body {
+      background: url('image.jpg') no-repeat center center/cover;
+      height: 100vh;
+    }
 
-     <div class="text-sci"></div>
-       <h2>Welcome!<br><span>Unlock All Features</span></h2>
+    .background {
+      width: 100%;
+      height: 100vh;
+      background: url('image.jpg') no-repeat center center/cover;
+      filter: blur(10px);
+    }
 
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 85%;
+      height: 450px;
+      background: url('image.jpg') no-repeat center center/cover;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      padding: 80px;
+      color: #e4e4e4;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .content .logo {
+      font-size: 30px;
+    }
+
+    .content h2 {
+      font-size: 40px;
+      line-height: 1.2;
+    }
+
+    .content h2 span {
+      font-size: 25px;
+      color: #ffcc00;
+    }
+
+    .content p {
+      font-size: 16px;
+      margin: 20px 0;
+    }
+
+    .social-icons a i {
+      font-size: 22px;
+      color: #e4e4e4;
+      margin-right: 10px;
+      transition: 0.5s ease;
+    }
+
+    .social-icons a:hover i {
+      transform: scale(1.2);
+      color: #ffcc00;
+    }
+
+    .logreg-box {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 42%;
+      height: 100%;
+      backdrop-filter: blur(20px);
+      overflow: hidden;
+      transition: all 0.6s ease;
+    }
+
+    .form-box {
+      position: absolute;
+      inset: 0;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #e4e4e4;
+      transition: transform 0.6s ease;
+    }
+
+    .form-box.login {
+      transform: translateX(0);
+    }
+
+    .logreg-box.active .form-box.login {
+      transform: translateX(430px);
+    }
+
+    .form-box.register {
+      transform: translateX(430px);
+    }
+
+    .logreg-box.active .form-box.register {
+      transform: translateX(0);
+    }
+
+    .form-box h2 {
+      font-size: 32px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .input-box {
+      position: relative;
+      width: 340px;
+      height: 50px;
+      border-bottom: 2px solid #e4e4e4;
+      margin: 30px 0;
+    }
+
+    .input-box input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: #fff;
+      font-size: 16px;
+      padding-right: 28px;
+    }
+
+    .input-box label {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      font-size: 16px;
+      font-weight: 500;
+      pointer-events: none;
+      transition: 0.5s ease;
+    }
+
+    .input-box input:focus ~ label,
+    .input-box input:valid ~ label {
+      top: -5px;
+      font-size: 12px;
+      color: #ffcc00;
+    }
+
+    .input-box .icon {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      font-size: 19px;
+      color: #fff;
+    }
+
+    .remember-forgot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14.5px;
+      margin: -15px 0 15px;
+    }
+
+    .remember-forgot label input {
+      accent-color: #e4e4e4;
+      margin-right: 5px;
+    }
+
+    .remember-forgot a {
+      color: #e4e4e4;
+      text-decoration: underline;
+    }
+
+    .btn {
+      width: 100%;
+      height: 45px;
+      background: #dd7a08;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #e4e4e4;
+      font-weight: 500;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #e49d1a;
+    }
+
+    .login-register {
+      font-size: 14.5px;
+      font-weight: 500;
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    .login-register a {
+      color: #e4e4e4;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .login-register a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="background"></div>
+
+  <div class="container">
+    <div class="content">
+      <h2 class="logo"><i class='bx bxl-firebase'></i></h2>
+      <h2>WorkHive.in</h2>
+      <h2>Welcome!<br><span>Unlock All Features</span></h2>
       <p>Team Up And Explore</p>
 
-        <div class="social-icons">
-         <a href="#"><i class='bx bxl-linkedin'></i></a>
-         <a href="#"><i class='bx bxl-facebook'></i></a>
-         <a href="#"><i class='bx bxl-instagram'></i></a>
-         <a href="#"><i class='bx bxl-twitter'></i></a>
-        </div>
-        </div>
-        <div class="logreg-box">
-    <div class="form-box login">
-      <form action="ask.html">
-        <h2>Sign In</h2>
-
-        <div class="input-box">
-           <span class="icon">
-            <i class='bx bxs-envelope'></i>
-           </span>
-           <input type="email" required>
-           <label>Email</label>
-        </div>
-
-        <div class="input-box">
-           <span class="icon">
-             <i class='bx bxs-lock-alt'></i>
-           </span>
-           <input type="password" required>
-           <label>Password</label>
-        </div>
-
-        <div class="remember-forgot">
-          <label>
-            <input type="checkbox"> Remember me
-          </label>
-          <a href="#">Forgot password</a>
-        </div>
-       
-        <button type="submit" class="btn">Sign In</button>
-        <div class="login">
-         <p>Don't have an account?<a href="#" class="register-link">
-         Sign up</a></p>
-
-        </div>
-      </form>
-
-    </div>
-    </div>
+      <div class="social-icons">
+        <a href="#"><i class='bx bxl-linkedin'></i></a>
+        <a href="#"><i class='bx bxl-facebook'></i></a>
+        <a href="#"><i class='bx bxl-instagram'></i></a>
+        <a href="#"><i class='bx bxl-twitter'></i></a>
+      </div>
     </div>
 
- 
- 
-<script src="register.js"></script>
+    <div class="logreg-box">
+      <!-- Login Form -->
+      <div class="form-box login">
+        <form action="ask.html">
+          <h2>Sign In</h2>
+
+          <div class="input-box">
+            <span class="icon"><i class='bx bxs-envelope'></i></span>
+            <input type="email" required>
+            <label>Email</label>
+          </div>
+
+          <div class="input-box">
+            <span class="icon"><i class='bx bxs-lock-alt'></i></span>
+            <input type="password" required>
+            <label>Password</label>
+          </div>
+
+          <div class="remember-forgot">
+            <label><input type="checkbox"> Remember me</label>
+            <a href="#">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn">Sign In</button>
+
+          <div class="login-register">
+            <p>Don't have an account? <a href="#" class="register-link">Sign up</a></p>
+          </div>
+        </form>
+      </div>
+
+      <!-- Register Form -->
+      <div class="form-box register">
+        <form action="#">
+          <h2>Sign Up</h2>
+
+          <div class="input-box">
+            <span class="icon"><i class='bx bxs-user'></i></span>
+            <input type="text" required>
+            <label>Name</label>
+          </div>
+
+          <div class="input-box">
+            <span class="icon"><i class='bx bxs-envelope'></i></span>
+            <input type="email" required>
+            <label>Email</label>
+          </div>
+
+          <div class="input-box">
+            <span class="icon"><i class='bx bxs-lock-alt'></i></span>
+            <input type="password" required>
+            <label>Password</label>
+          </div>
+
+          <div class="remember-forgot">
+            <label><input type="checkbox"> I agree to the terms & conditions</label>
+          </div>
+
+          <button type="submit" class="btn">Sign Up</button>
+
+          <div class="login-register">
+            <p>Already have an account? <a href="#" class="login-link">Sign in</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const logregBox = document.querySelector('.logreg-box');
+    const loginLink = document.querySelector('.login-link');
+    const registerLink = document.querySelector('.register-link');
+
+    registerLink.addEventListener('click', () => {
+      logregBox.classList.add('active');
+    });
+
+    loginLink.addEventListener('click', () => {
+      logregBox.classList.remove('active');
+    });
+  </script>
 </body>
 </html>
-
