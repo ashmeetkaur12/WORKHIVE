@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== Global Styles ===== */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+            background: #000; /* fallback if video fails */
+            overflow-x: hidden;
+        }
+
+        /* ===== Background Video ===== */
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(0.6);
+        }
+
+        /* ===== Header ===== */
+        header {
+            text-align: center;
+            padding: 20px 15px; /* smaller height */
+            background: rgba(255, 255, 0, 0.25);
+            color: #fff;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 36px; /* reduced size */
+            font-weight: 800;
+            background: linear-gradient(90deg, #ffe600, #ffae00, #fffb00);
+            background-clip: text; /* ✅ standard property for all browsers */
+            -webkit-background-clip: text; /* ✅ Chrome/Safari support */
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.6);
+            animation: glow 3s infinite alternate ease-in-out;
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 10px;
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 8px rgba(255, 255, 0, 0.6),
+                             0 0 16px rgba(255, 255, 0, 0.4);
+            }
+            100% {
+                text-shadow: 0 0 20px rgba(255, 255, 0, 0.9),
+                             0 0 40px rgba(255, 200, 0, 0.8);
+            }
+        }
+
+        /* ===== Container ===== */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+        }
+
+        /* ===== Project Cards (Glassmorphism) ===== */
+        .project-card {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            margin: 15px 0;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            color: #fff;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-5px);
+        }
+
+        .project-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            border-left: 6px solid #ffff00;
+            padding-left: 10px;
+        }
+
+        .project-details {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .detail {
+            flex: 1;
+            min-width: 200px;
+            margin: 5px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffff00, #ffcc00);
+            transition: width 0.5s ease;
+        }
+
+        p {
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Background Video -->
+    <video autoplay muted loop id="bg-video">
+        <source src="pro.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <!-- Header -->
+    <header>
+        <h1>My Projects</h1>
+    </header>
+
+    <!-- Projects Container -->
+    <div class="container">
+
+        <!-- Project Alpha -->
+        <div class="project-card">
+            <div class="project-title">Project Alpha</div>
+            <div class="project-details">
+                <div class="detail"><strong>Involved:</strong> John Doe, Jane Smith</div>
+                <div class="detail"><strong>Leader:</strong> Mr. Johnson</div>
+                <div class="detail"><strong>Started:</strong> 2023-01-01</div>
+                <div class="detail"><strong>End:</strong> 2023-12-31</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 75%;"></div>
+            </div>
+            <p>Progress: 75%</p>
+        </div>
+
+        <!-- Project Beta -->
+        <div class="project-card">
+            <div class="project-title">Project Beta</div>
+            <div class="project-details">
+                <div class="detail"><strong>Involved:</strong> Alice Brown, Bob Wilson</div>
+                <div class="detail"><strong>Leader:</strong> Ms. Davis</div>
+                <div class="detail"><strong>Started:</strong> 2023-03-15</div>
+                <div class="detail"><strong>End:</strong> 2024-03-14</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 50%;"></div>
+            </div>
+            <p>Progress: 50%</p>
+        </div>
+
+        <!-- Project Gamma -->
+        <div class="project-card">
+            <div class="project-title">Project Gamma</div>
+            <div class="project-details">
+                <div class="detail"><strong>Involved:</strong> Charlie Green, Diana White</div>
+                <div class="detail"><strong>Leader:</strong> Mr. Lee</div>
+                <div class="detail"><strong>Started:</strong> 2023-06-01</div>
+                <div class="detail"><strong>End:</strong> 2024-05-31</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 90%;"></div>
+            </div>
+            <p>Progress: 90%</p>
+        </div>
+
+    </div>
+
+    <script>
+        console.log("Projects page loaded.");
+    </script>
+</body>
+</html>
