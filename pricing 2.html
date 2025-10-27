@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WorkHive-Pricing</title>
+  <meta name="description" content="Innovative pricing page for WorkHive - a project management web app">
+  <style>
+    :root{
+      --bg:#0f1724; 
+      --card:#0b1220; 
+      --muted:#9aa4b2; 
+      --accent:#facc15;          /* Yellow accent */
+      --accent-2:#fde047;        /* Light yellow accent */
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.02);
+      --glass-border: rgba(255,255,255,0.06);
+      --success: #14b8a6;
+      --danger: #ff5c7c;
+      --max-width:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{
+      height:100%;
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
+      color:#e6eef8;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(250,204,21,0.12), transparent),
+                  radial-gradient(1000px 600px at 90% 90%, rgba(253,224,71,0.06), transparent),
+                  var(--bg);
+    }
+    a{color:inherit}
+    .container{max-width:var(--max-width);margin:40px auto;padding:24px}
+
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;box-shadow:0 6px 20px rgba(250,204,21,0.18)}
+    h1{font-size:20px;margin:0}
+    p.lead{color:var(--muted);margin:0}
+
+    .controls{display:flex;gap:12px;align-items:center}
+    .toggle{background:var(--glass);border:1px solid var(--glass-border);padding:6px;border-radius:999px;display:flex;align-items:center;gap:6px}
+    .toggle button{background:transparent;border:none;padding:6px 10px;border-radius:999px;color:var(--muted);cursor:pointer}
+    .toggle button.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;box-shadow:0 6px 18px rgba(250,204,21,0.12)}
+    select, input[type=range], input[type=number]{background:transparent;border:1px solid var(--glass-border);padding:8px;border-radius:8px;color:#e6eef8}
+
+    .pricing-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-top:20px}
+    .card{background:linear-gradient(180deg, rgba(250, 204, 21, 0.02), rgba(253, 224, 71, 0.01));border:1px solid var(--glass-border);padding:20px;border-radius:16px;position:relative;overflow:hidden;min-height:420px}
+    .badge{position:absolute;top:16px;right:16px;background:linear-gradient(90deg,var(--accent),var(--accent-2));padding:6px 10px;border-radius:999px;color:white;font-weight:600;font-size:13px}
+    .price{font-size:36px;font-weight:700;margin:12px 0}
+    .sub{color:var(--muted);font-size:13px}
+    .features{margin-top:14px}
+    .features li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.02)}
+    .features li:last-child{border-bottom:none}
+    .cta{display:flex;gap:8px;margin-top:18px}
+    .btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;box-shadow:0 10px 30px rgba(250,204,21,0.14)}
+    .btn.ghost{background:transparent;border:1px solid var(--glass-border);color:var(--muted)}
+/* === FORCE compare panel to blend with page (no accent box) === */
+.compare,
+#comparePanel {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  /* keep rounding so it visually matches the layout; change to 0 if you want sharp corners */
+  border-radius: 16px !important;
+  padding: 16px !important; /* keep spacing */
+}
+
+/* remove any header/table background inside compare if present */
+.compare thead,
+.compare thead th,
+.compare table {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+    .compare table{width:100%;border-collapse:collapse}
+    .compare th{text-align:left;padding:10px 8px}
+    .compare td{padding:10px 8px;text-align:center}
+    .yes{color:var(--success);font-weight:700}
+    .no{color:var(--muted)}
+
+    .range-wrap{display:flex;gap:12px;align-items:center}
+    input[type=range]{-webkit-appearance:none;height:6px;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-2));outline:none}
+    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:white;box-shadow:0 6px 16px rgba(0,0,0,0.4)}
+
+    @media(max-width:980px){.pricing-grid{grid-template-columns:1fr}} 
+
+    .sparkle{position:absolute;left:-6%;top:-10%;width:220px;height:220px;filter:blur(40px);opacity:0.25;background:conic-gradient(from 120deg at 50% 50%, rgba(250,204,21,0.6), rgba(253,224,71,0.5)) ;transform:rotate(20deg);border-radius:40%}
+
+    .recommend{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(250,204,21,0.08);color:var(--accent);font-weight:700;font-size:13px}
+    .team-input{display:flex;gap:8px;align-items:center}
+
+    .footer{margin-top:26px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between;align-items:center}
+
+    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:flex;align-items:center;justify-content:center;z-index:60}
+    .modal{background:linear-gradient(180deg, #071025, #071826);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);width:420px}
+
+    .pulse{animation:pulse 2.6s infinite}
+    @keyframes pulse{0%{transform:scale(1);opacity:1}50%{transform:scale(1.02);opacity:0.9}100%{transform:scale(1);opacity:1}}
+
+    .faq{margin-top:16px}
+    .faq-item{border-top:1px dashed rgba(255,255,255,0.02);padding:12px 0}
+    .faq-item button{background:transparent;border:none;color:var(--muted);width:100%;text-align:left;padding:0;cursor:pointer}
+
+    button:focus, input:focus, select:focus{outline:2px solid rgba(250,204,21,0.18);outline-offset:2px}
+  </style>
+</head>
+<body>
+ <div class="container" id="app">
+    <header>
+      <div class="brand">
+        <div class="logo">WH</div>
+        <div>
+          <h1>WorkHive</h1>
+          <p class="lead">Smart pricing for teams & builders — pay only for what scales.</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="toggle" role="tablist" aria-label="billing toggle">
+          <button id="monthlyBtn" class="active" aria-pressed="true">Monthly</button>
+          <button id="yearlyBtn">Yearly <small style="margin-left:6px;color:var(--muted);font-weight:600">Save 20%</small></button>
+        </div>
+
+        <select id="currency" aria-label="currency">
+          <option value="USD">USD $</option>
+          <option value="INR">INR ₹</option>
+          <option value="EUR">EUR €</option>
+        </select>
+      </div>
+    </header>
+
+    <section class="pricing">
+      <div style="position:relative">
+        <div class="sparkle"></div>
+      </div>
+
+      <div class="controls" style="justify-content:space-between;gap:20px">
+        <div class="range-wrap">
+          <label style="color:var(--muted);font-weight:600;margin-right:12px">Team size</label>
+          <input id="teamRange" type="range" min="1" max="200" value="6">
+          <div style="min-width:60px;text-align:right;color:var(--muted)"><strong id="teamSize">6</strong> members</div>
+        </div>
+
+        <div class="team-input">
+          <label style="color:var(--muted);font-weight:600">Recommended:</label>
+          <div class="recommend" id="recommendLabel">Starter</div>
+        </div>
+      </div>
+
+      <div class="pricing-grid" id="pricingGrid">
+        <!-- Card: Starter -->
+        <div class="card" data-tier="starter">
+          <div class="badge">Popular</div>
+          <h3>Starter</h3>
+          <div class="price" data-price>Free</div>
+          <div class="sub">Up to 3 projects • basic support</div>
+
+          <ul class="features" aria-hidden="false">
+            <li><strong>5</strong> active projects</li>
+            <li><strong>3</strong> team members</li>
+            <li><strong>Basic</strong> analytics</li>
+            <li><strong>Community</strong> support</li>
+          </ul>
+
+          <div class="cta">
+            <button class="btn primary" data-action="select">Get Started</button>
+            <button class="btn ghost" data-action="compare">Compare</button>
+          </div>
+        </div>
+
+        <!-- Card: Pro -->
+        <div class="card pulse" data-tier="pro">
+          <div class="badge" style="right:auto;left:16px;background:linear-gradient(90deg,#ffb86b,#ff6b9a);">Best value</div>
+          <h3>Pro</h3>
+          <div class="price" data-price></div>
+          <div class="sub">Collaboration for small teams • priority support</div>
+
+          <ul class="features">
+            <li><strong>Unlimited</strong> projects</li>
+            <li><strong>Up to 15</strong> team members</li>
+            <li><strong>Advanced</strong> analytics & automations</li>
+            <li><strong>Integrations</strong> (Slack, Git, Calendar)</li>
+          </ul>
+
+          <div class="cta">
+            <button class="btn primary" data-action="select">Start Trial</button>
+            <button class="btn ghost" data-action="demo">Live Demo</button>
+          </div>
+        </div>
+
+        <!-- Card: Enterprise -->
+        <div class="card" data-tier="enterprise">
+          <h3>Enterprise</h3>
+          <div class="price" data-price></div>
+          <div class="sub">For large orgs • SSO, audit logs & SLA</div>
+
+          <ul class="features">
+            <li><strong>Custom</strong> projects & storage</li>
+            <li><strong>Unlimited</strong> users</li>
+            <li><strong>Dedicated</strong> account manager</li>
+            <li><strong>Compliance</strong> (SOC2, ISO)</li>
+          </ul>
+
+          <div class="cta">
+            <button class="btn primary" data-action="contact">Contact Sales</button>
+            <button class="btn ghost" data-action="compare">Compare</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comparison and extras -->
+      <div class="compare" id="comparePanel">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <strong style="font-size:16px">Feature comparison</strong>
+          <div style="display:flex;gap:12px;align-items:center">
+            <small style="color:var(--muted)">Currency:</small>
+            <select id="miniCurrency"><option>USD</option><option>INR</option><option>EUR</option></select>
+          </div>
+        </div>
+
+        <table aria-label="feature table">
+          <thead>
+            <tr><th></th><th>Starter</th><th>Pro</th><th>Enterprise</th></tr>
+          </thead>
+          <tbody>
+            <tr><td style="text-align:left">Projects</td><td>5</td><td>Unlimited</td><td>Custom</td></tr>
+            <tr><td style="text-align:left">Team members</td><td>3</td><td>15</td><td>Unlimited</td></tr>
+            <tr><td style="text-align:left">Analytics</td><td class="no">Basic</td><td class="yes">Advanced</td><td class="yes">Enterprise</td></tr>
+            <tr><td style="text-align:left">SLA / Support</td><td class="no">Community</td><td class="yes">Priority</td><td class="yes">SLA</td></tr>
+            <tr><td style="text-align:left">SSO & Audit</td><td class="no">-</td><td class="no">-</td><td class="yes">Included</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="footer">
+        <div>Not sure? Try a free demo or <a href="#" id="contactSales">contact sales</a>.</div>
+        <div>All prices exclude taxes.</div>
+      </div>
+
+      <div class="faq">
+        <div style="display:flex;justify-content:space-between;align-items:center"><strong>FAQ</strong><button class="btn ghost" id="openFaq">View all</button></div>
+        <div class="faq-item"><button aria-expanded="false">What happens after trial ends?</button><div style="color:var(--muted);margin-top:8px;display:none">You will be invited to choose a plan; projects remain intact.</div></div>
+        <div class="faq-item"><button aria-expanded="false">Do you offer discounts for schools/non-profits?</button><div style="color:var(--muted);margin-top:8px;display:none">Yes — reach out to sales for verification and a custom plan.</div></div>
+      </div>
+
+    </section>
+
+    <!-- Modal placeholder -->
+    <div id="modalRoot"></div>
+  </div>
+
+  <script>
+    // Pricing engine
+    const tiers = {
+      starter:{monthly:0, yearly:0},
+      pro:{monthly:19, yearly:152}, // yearly = monthly*12*0.8
+      enterprise:{monthly:89, yearly:712}
+    }
+
+    const currencyRates = {USD:1, INR:82.5, EUR:0.92}; // sample rates
+    const currencySymbols = {USD:'$',INR:'₹',EUR:'€'};
+
+    const monthlyBtn = document.getElementById('monthlyBtn');
+    const yearlyBtn = document.getElementById('yearlyBtn');
+    const currencySelect = document.getElementById('currency');
+    const teamRange = document.getElementById('teamRange');
+    const teamSizeEl = document.getElementById('teamSize');
+    const recommendLabel = document.getElementById('recommendLabel');
+    const pricingGrid = document.getElementById('pricingGrid');
+    const modalRoot = document.getElementById('modalRoot');
+
+    let billing = 'monthly';
+    let currency = 'USD';
+    let teamSize = +teamRange.value;
+
+    function formatPrice(value){
+      const sym = currencySymbols[currency]||'';
+      if(value===0) return 'Free';
+      // show 0 decimals for USD/INR, 2 for EUR
+      return sym + (Math.round(value*100)/100).toLocaleString();
+    }
+
+    function computeAndRender(){
+      // compute recommended tier
+      if(teamSize<=3) recommendLabel.textContent='Starter';
+      else if(teamSize<=15) recommendLabel.textContent='Pro';
+      else recommendLabel.textContent='Enterprise';
+
+      // update price tags
+      document.querySelectorAll('[data-tier]').forEach(card=>{
+        const tier = card.getAttribute('data-tier');
+        const priceEl = card.querySelector('[data-price]');
+        let base = tiers[tier][billing];
+        // dynamic scaling: pro adds per-seat beyond 5, enterprise quotes custom
+        if(tier==='pro'){
+          const extra = Math.max(0, teamSize-5);
+          base = base + extra*2; // $2 per extra member monthly
+        }
+        // currency conversion
+        const converted = Math.round(base * (currencyRates[currency]||1) * 100)/100;
+        priceEl.textContent = formatPrice(converted) + (base?`/${billing.slice(0,1)}`:'');
+
+        // highlight recommended
+        card.style.boxShadow = (recommendLabel.textContent.toLowerCase()===tier)?'0 18px 60px rgba(124,92,255,0.12)':'';
+      })
+    }
+
+    // init
+    computeAndRender();
+
+    monthlyBtn.addEventListener('click',()=>{billing='monthly';monthlyBtn.classList.add('active');yearlyBtn.classList.remove('active');monthlyBtn.setAttribute('aria-pressed','true');yearlyBtn.setAttribute('aria-pressed','false');computeAndRender()});
+    yearlyBtn.addEventListener('click',()=>{billing='yearly';yearlyBtn.classList.add('active');monthlyBtn.classList.remove('active');yearlyBtn.setAttribute('aria-pressed','true');monthlyBtn.setAttribute('aria-pressed','false');computeAndRender()});
+
+    currencySelect.addEventListener('change',(e)=>{currency=e.target.value;computeAndRender()});
+    document.getElementById('miniCurrency').addEventListener('change', (e)=>{currency=e.target.value;currencySelect.value = currency;computeAndRender()});
+
+    teamRange.addEventListener('input',(e)=>{teamSize = +e.target.value;teamSizeEl.textContent = teamSize;computeAndRender()});
+
+    // CTAs
+    pricingGrid.addEventListener('click', (e)=>{
+      const action = e.target.getAttribute('data-action');
+      if(!action) return;
+      const card = e.target.closest('.card');
+      const tier = card?.getAttribute('data-tier');
+      if(action==='select') openModal(tier);
+      if(action==='contact') openContactModal();
+      if(action==='demo') openDemoModal(tier);
+      if(action==='compare') card.classList.toggle('expanded');
+    })
+
+    // Modal helpers
+    function openModal(tier){
+      modalRoot.innerHTML = ` <div class="modal-backdrop" role="dialog" aria-modal="true">
+        <div class="modal">
+          <h3>Start with ${capitalize(tier)}</h3>
+          <p style="color:var(--muted)">You're selecting <strong>${tier}</strong> — we'll set up your workspace.</p>
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <button class="btn primary" id="confirmBuy">Confirm</button>
+            <button class="btn ghost" id="closeModal">Cancel</button>
+          </div>
+        </div>
+      </div>`;
+      document.getElementById('closeModal').addEventListener('click', closeModal);
+      document.getElementById('confirmBuy').addEventListener('click', ()=>{
+        closeModal(); celebrate(); setTimeout(()=>{alert('Welcome aboard — check your inbox for next steps!')},300);
+      })
+    }
+    function openContactModal(){
+      modalRoot.innerHTML = ` <div class="modal-backdrop" role="dialog" aria-modal="true">
+        <div class="modal">
+          <h3>Contact Sales</h3>
+          <p style="color:var(--muted)">Tell us a few details and our team will reach out.</p>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+            <input placeholder="Your name" aria-label="name">
+            <input placeholder="Work email" aria-label="email">
+            <input placeholder="Company" aria-label="company">
+            <div style="display:flex;gap:8px"><button class="btn primary" id="sendContact">Send</button><button class="btn ghost" id="closeContact">Close</button></div>
+          </div>
+        </div>
+      </div>`;
+      document.getElementById('closeContact').addEventListener('click', closeModal);
+      document.getElementById('sendContact').addEventListener('click', ()=>{closeModal(); alert('Thanks! Sales will contact you within 24 hours.')});
+    }
+    function openDemoModal(tier){
+      modalRoot.innerHTML = ` <div class="modal-backdrop" role="dialog" aria-modal="true">
+        <div class="modal">
+          <h3>Live Demo — ${capitalize(tier)}</h3>
+          <p style="color:var(--muted)">Pick a time and we'll run a 30-minute walkthrough tailored to your team size (${teamSize}).</p>
+          <div style="display:flex;gap:8px;margin-top:12px"><button class="btn primary" id="bookDemo">Book</button><button class="btn ghost" id="closeDemo">Cancel</button></div>
+        </div>
+      </div>`;
+      document.getElementById('closeDemo').addEventListener('click', closeModal);
+      document.getElementById('bookDemo').addEventListener('click', ()=>{closeModal(); alert('Demo requested — check your inbox to confirm schedule.')});
+    }
+    function closeModal(){modalRoot.innerHTML=''}
+
+    function capitalize(s){return s? s.charAt(0).toUpperCase()+s.slice(1):''}
+
+    // confetti (simple)
+    function celebrate(){
+      const c = document.createElement('div');
+      c.style.position='fixed';c.style.inset='0';c.style.pointerEvents='none';c.style.zIndex=9999;
+      document.body.appendChild(c);
+      for(let i=0;i<40;i++){
+        const el = document.createElement('div');
+        el.style.position='absolute';el.style.left = Math.random()*100 + '%';el.style.top='-10%';el.style.width='8px';el.style.height='14px';el.style.opacity=0.9;
+        el.style.background = `hsl(${Math.random()*360} 80% 60%)`;el.style.transform = `rotate(${Math.random()*360}deg)`;
+        el.style.borderRadius='2px';
+        el.animate([{transform:`translateY(0) rotate(0)`, opacity:1},{transform:`translateY(${window.innerHeight+200}px) rotate(720deg)`, opacity:0}],{duration:1500+Math.random()*1200,easing:'cubic-bezier(.2,.8,.2,1)'});
+        c.appendChild(el);
+      }
+      setTimeout(()=>c.remove(),2200);
+    }
+
+    // FAQ toggle
+    document.querySelectorAll('.faq-item button').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const expanded = btn.getAttribute('aria-expanded')==='true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        const content = btn.nextElementSibling;
+        if(content.style.display==='block'){content.style.display='none'} else content.style.display='block';
+      })
+    })
+
+    // contact link
+    document.getElementById('contactSales').addEventListener('click',(e)=>{e.preventDefault();openContactModal()});
+
+    // accessibility: keyboard shortcuts
+    document.addEventListener('keydown',(e)=>{
+      if(e.key==='1') openModal('starter');
+      if(e.key==='2') openModal('pro');
+      if(e.key==='3') openModal('enterprise');
+    })
+
+    // initial set locale-based currency if available
+    try{const userLang = navigator.language; if(userLang && userLang.startsWith('en-IN')){currency = 'INR'; currencySelect.value='INR'; document.getElementById('miniCurrency').value='INR'; computeAndRender()}}catch(e){}
+
+  </script></body>
+</html>
