@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Progress Dashboard</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 30px;
+      background: linear-gradient(135deg, #fffacd, #ffffe0);
+    }
+    h1 {
+      text-align: center;
+      color: #daa520;
+      margin-bottom: 40px;
+      letter-spacing: 1px;
+    }
+    .project {
+      background: #fff8dc;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 50px;
+      padding: 25px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .project:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+    }
+    h2 {
+      color: #b8860b;
+      margin-bottom: 5px;
+    }
+    .info {
+      font-size: 14px;
+      color: #696969;
+      margin-bottom: 20px;
+    }
+    canvas {
+      display: block;
+      margin: 0 auto;
+      border-radius: 10px;
+      background-color: #fafad2;
+      border: 1px solid #ddd;
+    }
+    .progress-text {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: 600;
+      color: #daa520;
+    }
+  </style>
+</head>
+<body>
+  <h1>📊 Project Progress Overview</h1>
+
+  <div class="project">
+    <h2>Project Alpha</h2>
+    <div class="info">Deadline: May 2023 | Goal: Feature Development</div>
+    <canvas id="chartAlpha" width="600" height="300"></canvas>
+    <div id="progressAlpha" class="progress-text">Progress: 0%</div>
+  </div>
+
+  <div class="project">
+    <h2>Project Beta</h2>
+    <div class="info">Deadline: Aug 2023 | Goal: Design + Implementation</div>
+    <canvas id="chartBeta" width="600" height="300"></canvas>
+    <div id="progressBeta" class="progress-text">Progress: 0%</div>
+  </div>
+
+  <div class="project">
+    <h2>Project Gamma</h2>
+    <div class="info">Deadline: Dec 2023 | Goal: Testing + Deployment</div>
+    <canvas id="chartGamma" width="600" height="300"></canvas>
+    <div id="progressGamma" class="progress-text">Progress: 0%</div>
+  </div>
+
+  <script>
+    function drawChart(canvasId, progressId, dates, progresses, deadline, phases) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext("2d");
+      const progressText = document.getElementById(progressId);
+      const numPoints = dates.length;
+      const xStep = 500 / (numPoints - 1);
+      let t = 0;
+      let animationRunning = false;
+
+      const deadlineIndex = dates.indexOf(deadline);
+      const deadlineX = deadlineIndex !== -1 ? 50 + deadlineIndex * xStep : null;
+
+      function renderStatic() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // === Phase rectangles ===
+        phases.forEach((phase) => {
+          const startIndex = dates.indexOf(phase.start);
+          const endIndex = dates.indexOf(phase.end);
+          if (startIndex !== -1 && endIndex !== -1) {
+            const startX = 50 + startIndex * xStep;
+            const endX = 50 + endIndex * xStep;
+            const width = endX - startX;
+            ctx.fillStyle = phase.color || "rgba(255,255,0,0.2)";
+            ctx.fillRect(startX, 80, width, 120); // covers graph area now
+            ctx.fillStyle = "#333";
+            ctx.font = "12px Poppins";
+            ctx.fillText(phase.label, startX + width / 4, 95);
+          }
+        });
+
+        // === Axes ===
+        ctx.strokeStyle = "#333";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(50, 250);
+        ctx.lineTo(550, 250);
+        ctx.moveTo(50, 250);
+        ctx.lineTo(50, 50);
+        ctx.stroke();
+
+        ctx.font = "12px Poppins";
+        ctx.fillStyle = "#333";
+        ctx.fillText("Progress (%)", 10, 30);
+
+        // X labels
+        for (let i = 0; i < numPoints; i++) {
+          ctx.fillText(dates[i], 50 + i * xStep - 20, 270);
+        }
+
+        // Y labels
+        for (let i = 0; i <= 100; i += 20) {
+          ctx.fillText(i, 20, 250 - i * 2);
+        }
+
+        // === Deadline line ===
+        if (deadlineX) {
+          ctx.strokeStyle = "red";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(deadlineX, 50);
+          ctx.lineTo(deadlineX, 250);
+          ctx.stroke();
+          ctx.fillStyle = "red";
+          ctx.fillText("Deadline", deadlineX - 25, 45);
+        }
+
+        // === Progress line ===
+        ctx.strokeStyle = "#ffd700";
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        for (let i = 0; i < numPoints; i++) {
+          const x = 50 + i * xStep;
+          const y = 250 - progresses[i] * 2;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+
+      function render() {
+        if (!animationRunning) return;
+
+        renderStatic(); // draw background
+
+        const totalSegments = numPoints - 1;
+        const segment = Math.floor(t);
+        const frac = t - segment;
+        if (segment < totalSegments) {
+          const x1 = 50 + segment * xStep;
+          const y1 = 250 - progresses[segment] * 2;
+          const x2 = 50 + (segment + 1) * xStep;
+          const y2 = 250 - progresses[segment + 1] * 2;
+          const x = x1 + frac * (x2 - x1);
+          const y = y1 + frac * (y2 - y1);
+
+          // Arrow head
+          ctx.save();
+          ctx.translate(x, y);
+          const dx = x2 - x1;
+          const dy = y2 - y1;
+          const angle = Math.atan2(dy, dx);
+          ctx.rotate(angle);
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.lineTo(-10, -5);
+          ctx.lineTo(-10, 5);
+          ctx.closePath();
+          ctx.fillStyle = "red";
+          ctx.fill();
+          ctx.restore();
+
+          // Update progress text
+          const totalProgress =
+            progresses[segment] +
+            frac * (progresses[segment + 1] - progresses[segment]);
+          progressText.textContent = `Progress: ${totalProgress.toFixed(1)}%`;
+        }
+
+        t += 0.008;
+        if (t >= totalSegments) {
+          t = totalSegments;
+          animationRunning = false;
+          progressText.textContent = `Progress: ${progresses[progresses.length - 1]}%`;
+        }
+
+        if (animationRunning) requestAnimationFrame(render);
+      }
+
+      // initial static draw
+      renderStatic();
+
+      return {
+        start: () => {
+          if (!animationRunning) {
+            animationRunning = true;
+            t = 0;
+            progressText.textContent = 'Progress: 0%';
+            render();
+          }
+        },
+        stop: () => {
+          animationRunning = false;
+          renderStatic();
+          progressText.textContent = `Progress: ${progresses[progresses.length - 1]}%`;
+        }
+      };
+    }
+
+    // === Example data ===
+    const alphaControls = drawChart(
+      "chartAlpha",
+      "progressAlpha",
+      ["2023-01", "2023-02", "2023-03", "2023-04"],
+      [0, 20, 40, 80],
+      "2023-05",
+      [
+        { start: "2023-01", end: "2023-02", label: "Design", color: "rgba(255,215,0,0.2)" },
+        { start: "2023-02", end: "2023-04", label: "Development", color: "rgba(255,165,0,0.2)" },
+      ]
+    );
+
+    const betaControls = drawChart(
+      "chartBeta",
+      "progressBeta",
+      ["2023-05", "2023-06", "2023-07"],
+      [0, 40, 70],
+      "2023-08",
+      [
+        { start: "2023-05", end: "2023-06", label: "UI Design", color: "rgba(255,255,0,0.2)" },
+        { start: "2023-06", end: "2023-07", label: "Implementation", color: "rgba(255,215,0,0.25)" },
+      ]
+    );
+
+    const gammaControls = drawChart(
+      "chartGamma",
+      "progressGamma",
+      ["2023-09", "2023-10", "2023-11"],
+      [0, 50, 90],
+      "2023-12",
+      [
+        { start: "2023-09", end: "2023-10", label: "Testing", color: "rgba(255,255,0,0.2)" },
+        { start: "2023-10", end: "2023-11", label: "Deployment", color: "rgba(255,215,0,0.25)" },
+      ]
+    );
+
+    // Add hover listeners
+    document.querySelectorAll('.project').forEach((project, index) => {
+      const controls = [alphaControls, betaControls, gammaControls][index];
+      project.addEventListener('mouseenter', () => controls.start());
+      project.addEventListener('mouseleave', () => controls.stop());
+    });
+  </script>
+</body>
+</html>
