@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings | Work Hive</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color:  #f8ce37;;
+      color: #2c2c2c;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .dark-mode {
+      background-color: #1f1f1f;
+      color: #f5f5f5;
+    }
+
+    .settings-container {
+      max-width: 800px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .settings-section {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      padding: 20px 25px;
+      margin-bottom: 25px;
+      transition: background 0.3s ease;
+    }
+
+    .dark-mode .settings-section {
+      background-color: #2a2a2a;
+    }
+
+    .settings-section h2 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: #3a3a3a;
+    }
+
+    .dark-mode .settings-section h2 {
+      color: #eaeaea;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 15px;
+    }
+
+    .setting-item {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 10px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s ease;
+      background: #fafafa;
+      cursor: pointer;
+    }
+
+    .dark-mode .setting-item {
+      background: #3a3a3a;
+    }
+
+    .setting-item:hover {
+      background: #ffe8cc;
+      transform: translateY(-3px);
+    }
+
+    .dark-mode .setting-item:hover {
+      background: #444;
+    }
+
+    .icon {
+      font-size: 1.3rem;
+      margin-right: 10px;
+    }
+
+    /* Modal Styles */
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .modal-content h3 {
+      margin-bottom: 15px;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .modal-content button {
+      padding: 8px 16px;
+      background: #ff8b3d;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .modal-content button:hover {
+      background: #ff7a1a;
+    }
+
+    .close-btn {
+      float: right;
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="settings-container">
+    <h1>Settings</h1>
+
+    <!-- Profile & Account -->
+    <section class="settings-section">
+      <h2>Profile & Account</h2>
+      <div class="settings-grid">
+        <div class="setting-item" onclick="openModal('editProfile')">
+          <i class="icon">👤</i><span>Edit Profile</span>
+        </div>
+        <div class="setting-item" onclick="openModal('changePassword')">
+          <i class="icon">🔒</i><span>Change Password</span>
+        </div>
+        <div class="setting-item" onclick="alert('Email settings updated successfully!')">
+          <i class="icon">📧</i><span>Manage Email</span>
+        </div>
+        <div class="setting-item" onclick="alert('Two-Step Verification enabled!')">
+          <i class="icon">🛡️</i><span>Two-Step Verification</span>
+        </div>
+        <div class="setting-item" onclick="logoutConfirm()">
+          <i class="icon">⏻</i><span>Logout</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team & Workspace -->
+    <section class="settings-section">
+      <h2>Team & Workspace</h2>
+      <div class="settings-grid">
+        <div class="setting-item" onclick="alert('Workspace switched!')">
+          <i class="icon">🔁</i><span>Switch Workspace</span>
+        </div>
+        <div class="setting-item" onclick="alert('Team management opened!')">
+          <i class="icon">👥</i><span>Manage Team</span>
+        </div>
+        <div class="setting-item" onclick="alert('Invitation sent successfully!')">
+          <i class="icon">➕</i><span>Invite Members</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- App Preferences -->
+    <section class="settings-section">
+      <h2>App Preferences</h2>
+      <div class="settings-grid">
+        <div class="setting-item" onclick="toggleTheme()">
+          <i class="icon">🌙</i><span>Theme</span>
+        </div>
+        <div class="setting-item" onclick="changeLanguage()">
+          <i class="icon">🌐</i><span>Language</span>
+        </div>
+        <div class="setting-item" onclick="alert('Default view set to Dashboard!')">
+          <i class="icon">📄</i><span>Default View</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Task & Project Settings -->
+    <section class="settings-section">
+      <h2>Task & Project Settings</h2>
+      <div class="settings-grid">
+        <div class="setting-item" onclick="alert('Task priority set to Medium!')">
+          <i class="icon">📋</i><span>Default Task Priority</span>
+        </div>
+        <div class="setting-item" onclick="alert('Message notifications allowed!')">
+          <i class="icon">🔔</i><span>Allow Message</span>
+        </div>
+        <div class="setting-item" onclick="alert('Task reminders turned ON!')">
+          <i class="icon">⏰</i><span>Task Reminders</span>
+        </div>
+        <div class="setting-item" onclick="alert('No blocked users found!')">
+          <i class="icon">🚫</i><span>Blocked Users</span>
+        </div>
+        <div class="setting-item" onclick="alert('Completed tasks archived successfully!')">
+          <i class="icon">📦</i><span>Auto-Archive Completed</span>
+        </div>
+        <div class="setting-item" onclick="alert('Data Backup completed!')">
+          <i class="icon">☁️</i><span>Data Backup</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Edit Profile Modal -->
+  <div class="modal" id="editProfile">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('editProfile')">&times;</span>
+      <h3>Edit Profile</h3>
+      <input type="text" placeholder="Full Name">
+      <input type="email" placeholder="Email Address">
+      <button onclick="saveProfile()">Save</button>
+    </div>
+  </div>
+
+  <!-- Change Password Modal -->
+  <div class="modal" id="changePassword">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('changePassword')">&times;</span>
+      <h3>Change Password</h3>
+      <input type="password" placeholder="Current Password">
+      <input type="password" placeholder="New Password">
+      <button onclick="changePass()">Update</button>
+    </div>
+  </div>
+
+  <script>
+    function openModal(id) {
+      document.getElementById(id).style.display = 'flex';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      alert(document.body.classList.contains('dark-mode') ? 'Dark mode activated!' : 'Light mode activated!');
+    }
+
+    function logoutConfirm() {
+      if (confirm("Are you sure you want to log out?")) {
+        alert("You have been logged out!");
+      }
+    }
+
+    function changeLanguage() {
+      const lang = prompt("Enter language code (en, fr, es):", "en");
+      if (lang) alert("Language changed to " + lang.toUpperCase());
+    }
+
+    function saveProfile() {
+      alert("Profile updated successfully!");
+      closeModal('editProfile');
+    }
+
+    function changePass() {
+      alert("Password changed successfully!");
+      closeModal('changePassword');
+    }
+  </script>
+</body>
+</html>
