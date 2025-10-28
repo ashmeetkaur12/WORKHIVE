@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorkHive Dashboard + Tasks</title>
+  <style>
+    /* ===== General Styles ===== */
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fffacd, #ffffe0);
+      color: #333;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    /* ===== Dashboard Section ===== */
+    .dashboard-section {
+      width: 100%;
+      padding: 30px 0;
+      margin-bottom: 50px;
+      background: linear-gradient(180deg, #fffbe0, #fff9c4);
+      border-bottom: 2px solid #e0c000;
+    }
+
+    .dashboard {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .project {
+      background: #fff8dc;
+      border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 350px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .project:hover {
+      transform: scale(1.03);
+    }
+
+    canvas {
+      background: #fffef0;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+
+    .progress-text {
+      margin-top: 10px;
+      font-weight: 600;
+      color: #b8860b;
+    }
+
+    /* ===== To-Do List Section ===== */
+    .todo-section {
+      position: relative;
+      z-index: 5;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .columns {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .column {
+      background: #fff8dc;
+      padding: 20px;
+      border-radius: 12px;
+      width: 280px;
+      min-height: 300px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: background 0.3s;
+    }
+
+    .column.highlight {
+      background: #ffecb3;
+    }
+
+    .column h2 {
+      color: #b8860b;
+      margin-bottom: 10px;
+    }
+
+    .task {
+      background: #ffffe0;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      cursor: grab;
+      position: relative;
+      z-index: 10;
+    }
+
+    .add-btn {
+      background: #ffd700;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #333;
+      font-weight: 600;
+      margin-top: 10px;
+      transition: background 0.3s;
+    }
+
+    .add-btn:hover {
+      background: #ffcc00;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Project Dashboard ===== -->
+  <section class="dashboard-section">
+    <h1>📊 Project Progress Overview</h1>
+    <div class="dashboard">
+      <div class="project">
+        <h2>Project Alpha</h2>
+        <canvas id="chart1" width="300" height="200"></canvas>
+        <div class="progress-text">Progress: 0%</div>
+      </div>
+
+      <div class="project">
+        <h2>Project Beta</h2>
+        <canvas id="chart2" width="300" height="200"></canvas>
+        <div class="progress-text">Progress: 0%</div>
+      </div>
+
+      <div class="project">
+        <h2>Project Gamma</h2>
+        <canvas id="chart3" width="300" height="200"></canvas>
+        <div class="progress-text">Progress: 0%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== To-Do List Section ===== -->
+  <section class="todo-section">
+    <h1>🗒️ My To-Do List</h1>
+    <div class="columns">
+      <div class="column" id="todo">
+        <h2>To Do</h2>
+        <button class="add-btn" onclick="addTask('todo')">+ Add Task</button>
+      </div>
+      <div class="column" id="inprogress">
+        <h2>In Progress</h2>
+        <button class="add-btn" onclick="addTask('inprogress')">+ Add Task</button>
+      </div>
+      <div class="column" id="completed">
+        <h2>Completed</h2>
+        <button class="add-btn" onclick="addTask('completed')">+ Add Task</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    /* ========== Project Chart Drawing ========== */
+    function drawChart(canvasId, progressArray, label) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext('2d');
+      const width = canvas.width, height = canvas.height;
+      const margin = 30;
+
+      ctx.clearRect(0, 0, width, height);
+
+      ctx.strokeStyle = '#333';
+      ctx.beginPath();
+      ctx.moveTo(margin, margin);
+      ctx.lineTo(margin, height - margin);
+      ctx.lineTo(width - margin, height - margin);
+      ctx.stroke();
+
+      ctx.strokeStyle = '#b8860b';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(margin, height - margin - progressArray[0] * 1.5);
+      for (let i = 1; i < progressArray.length; i++) {
+        const x = margin + (i * (width - 2 * margin)) / (progressArray.length - 1);
+        const y = height - margin - progressArray[i] * 1.5;
+        ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      let arrowX = margin;
+      let t = 0;
+      const progressText = canvas.parentElement.querySelector('.progress-text');
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        ctx.strokeStyle = '#333';
+        ctx.beginPath();
+        ctx.moveTo(margin, margin);
+        ctx.lineTo(margin, height - margin);
+        ctx.lineTo(width - margin, height - margin);
+        ctx.stroke();
+
+        ctx.strokeStyle = '#b8860b';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(margin, height - margin - progressArray[0] * 1.5);
+        for (let i = 1; i < progressArray.length; i++) {
+          const x = margin + (i * (width - 2 * margin)) / (progressArray.length - 1);
+          const y = height - margin - progressArray[i] * 1.5;
+          ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        const lastX = margin + t * (width - 2 * margin);
+        const lastY = height - margin - (progressArray[progressArray.length - 1] * 1.5) * t;
+        ctx.fillStyle = 'red';
+        ctx.beginPath();
+        ctx.arc(lastX, lastY, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        progressText.textContent = `Progress: ${Math.round(progressArray[progressArray.length - 1] * t)}%`;
+        t += 0.02;
+        if (t <= 1) requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    drawChart('chart1', [0, 20, 40, 80], 'Project Alpha');
+    drawChart('chart2', [0, 40, 60, 90], 'Project Beta');
+    drawChart('chart3', [0, 30, 50, 100], 'Project Gamma');
+
+    /* ========== To-Do List Script ========== */
+    function addTask(columnId) {
+      const taskText = prompt("Enter task:");
+      if (!taskText) return;
+      const task = document.createElement("div");
+      task.className = "task";
+      task.draggable = true;
+      task.textContent = taskText;
+      task.addEventListener("dragstart", dragStart);
+      document.getElementById(columnId).appendChild(task);
+    }
+
+    let draggedTask = null;
+
+    function dragStart(e) {
+      draggedTask = this;
+      setTimeout(() => this.style.display = "none", 0);
+    }
+
+    document.querySelectorAll(".todo-section .column").forEach(col => {
+      col.addEventListener("dragover", e => e.preventDefault());
+      col.addEventListener("drop", function() {
+        this.appendChild(draggedTask);
+        draggedTask.style.display = "block";
+        draggedTask = null;
+      });
+      col.addEventListener("dragenter", function() {
+        this.classList.add("highlight");
+      });
+      col.addEventListener("dragleave", function() {
+        this.classList.remove("highlight");
+      });
+      col.addEventListener("drop", function() {
+        this.classList.remove("highlight");
+      });
+    });
+  </script>
+</body>
+</html>
